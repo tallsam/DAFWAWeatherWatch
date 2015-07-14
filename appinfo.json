@@ -1,0 +1,40 @@
+{
+    "appKeys": {
+        "KEY_CONDITIONS": 1,
+        "KEY_TEMPERATURE": 0
+    },
+    "capabilities": [
+        "location"
+    ],
+    "companyName": "tallsam",
+    "longName": "Tutorial-2-2",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "compatibility": "2.7",
+                "file": "fonts/perfect-dos-vga.ttf",
+                "name": "FONT_PERFECT_DOS_48",
+                "type": "font"
+            },
+            {
+                "file": "fonts/perfect-dos-vga.ttf",
+                "name": "FONT_PERFECT_DOS_20",
+                "type": "font"
+            },
+            {
+                "file": "images/background.png",
+                "name": "IMAGE_BACKGROUND",
+                "type": "png"
+            }
+        ]
+    },
+    "sdkVersion": "2",
+    "shortName": "Tutorial-2-2",
+    "uuid": "64f5d2d2-d4a6-4102-b6bb-b289f7b09f35",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
