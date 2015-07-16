@@ -33,11 +33,11 @@ function locationSuccess(pos) {
       var airTemp = json.air_temp[0].value;
       var feelsLike = json.feels_like[0].value;
       var humidity = json.humidity[0].value;
-      var windDirection = json.wind_10min_avg[0].value;
+      var windDirection = json.wind_10min_avg[0].compass_direction;
       var windSpeed = json.wind_10min_avg[0].speed_average;
       var dewPoint = json.dewpoint[0].value;
       var soilTemp = json.soil_temp[0].soiltemp_degc_ave;
-      var rainfall9am = json.rainfall_from_9am.value;
+      var rainfall9am = json.rainfall_from_9am[0].value;
 
       var dictionary = {
         'KEY_STATIONNAME': stationName,
