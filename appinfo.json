@@ -15,7 +15,7 @@
         "location"
     ],
     "companyName": "tallsam",
-    "longName": "Tutorial-2-2",
+    "longName": "DAFWA Weather Pebble Watchface",
     "projectType": "native",
     "resources": {
         "media": [
@@ -38,7 +38,7 @@
         ]
     },
     "sdkVersion": "2",
-    "shortName": "Tutorial-2-2",
+    "shortName": "DAFWAWeather",
     "uuid": "64f5d2d2-d4a6-4102-b6bb-b289f7b09f35",
     "versionCode": 1,
     "versionLabel": "1.0",

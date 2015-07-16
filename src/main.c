@@ -12,13 +12,13 @@
 #define KEY_RAINFALL9AM 9
   
 static Window *s_main_window;
-static TextLayer *s_time_layer;
 
 static GFont s_time_font;
 static GFont s_weather_font;
 static BitmapLayer *s_background_layer;
 static GBitmap *s_background_bitmap;
 
+static TextLayer *s_time_layer;
 static TextLayer *s_time_layer;
 static TextLayer *s_stationname_layer;
 static TextLayer *s_stationcode_layer;
@@ -205,7 +205,21 @@ static void main_window_unload(Window *window) {
  * Callback to update the time.
  */
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
+  // Update the time
   update_time();
+  
+  // Get weather update every 30 minutes  
+  if(tick_time->tm_min % 30 == 0) {
+    // Begin dictionary
+    DictionaryIterator *iter;
+    app_message_outbox_begin(&iter);
+  
+    // Add a key-value pair
+    dict_write_uint8(iter, 0, 0);
+  
+    // Send the message!
+    app_message_outbox_send();
+  }
 }
 
 /**
