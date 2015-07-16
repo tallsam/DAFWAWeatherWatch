@@ -1,7 +1,16 @@
 #include <pebble.h>
   
-#define KEY_TEMPERATURE 0
-#define KEY_CONDITIONS 1
+#define KEY_STATIONNAME 0
+#define KEY_STATIONCODE 1
+#define KEY_AIRTEMP 2
+#define KEY_FEELSLIKE 3
+#define KEY_HUMIDITY 4
+#define KEY_WINDDIRECTION 5
+#define KEY_WINDSPEED 6
+#define KEY_DEWPOINT 7
+#define KEY_SOILTEMP 8
+#define KEY_RAINFALL9AM 9
+  
   
 static Window *s_main_window;
 static TextLayer *s_time_layer;
@@ -13,6 +22,17 @@ static GBitmap *s_background_bitmap;
 
 static TextLayer *s_time_layer;
 static TextLayer *s_weather_layer;
+
+static TextLayer *s_stationname_layer;
+static TextLayer *s_stationcode_layer;
+static TextLayer *s_airtemp_layer;
+static TextLayer *s_feelslike_layer;
+static TextLayer *s_humidity_layer;
+static TextLayer *s_winddirection_layer;
+static TextLayer *s_windspeed_layer;
+static TextLayer *s_dewpoint_layer;
+static TextLayer *s_soiltemp_layer;
+static TextLayer *s_rainfall9am_layer;
 
 /**
  * Updates the time layer.
@@ -47,26 +67,109 @@ static void main_window_load(Window *window) {
   s_background_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
   bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
   layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));
+
+  // Fonts
+  s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_48));
   
   // Create time TextLayer
   s_time_layer = text_layer_create(GRect(5, 52, 139, 50));
-  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_48));
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, GColorBlack);
   text_layer_set_text(s_time_layer, "00:00");
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
- 
-  // Create weather TextLayer
-  s_weather_layer = text_layer_create(GRect(0,130,144,25));
-  s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
-  text_layer_set_background_color(s_weather_layer, GColorClear);
-  text_layer_set_text_color(s_weather_layer, GColorWhite);
-  text_layer_set_text_alignment(s_weather_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_weather_layer, "Loading");
-  text_layer_set_font(s_weather_layer, s_weather_font);
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_weather_layer));
+
+  // Create stationname TextLayer
+  s_stationname_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_stationname_layer, GColorClear);
+  text_layer_set_text_color(s_stationname_layer, GColorWhite);
+  text_layer_set_text_alignment(s_stationname_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_stationname_layer, "Loading");
+  text_layer_set_font(s_stationname_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_stationname_layer));
+  
+  // Create stationcode TextLayer
+  s_stationcode_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_stationcode_layer, GColorClear);
+  text_layer_set_text_color(s_stationcode_layer, GColorWhite);
+  text_layer_set_text_alignment(s_stationcode_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_stationcode_layer, "Loading");
+  text_layer_set_font(s_stationcode_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_stationcode_layer));
+  
+  // Create airtemp TextLayer
+  s_airtemp_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_airtemp_layer, GColorClear);
+  text_layer_set_text_color(s_airtemp_layer, GColorWhite);
+  text_layer_set_text_alignment(s_airtemp_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_airtemp_layer, "Loading");
+  text_layer_set_font(s_airtemp_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_airtemp_layer));
+  
+  // Create feelslike TextLayer
+  s_feelslike_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_feelslike_layer, GColorClear);
+  text_layer_set_text_color(s_feelslike_layer, GColorWhite);
+  text_layer_set_text_alignment(s_feelslike_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_feelslike_layer, "Loading");
+  text_layer_set_font(s_feelslike_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_feelslike_layer));
+  
+  // Create humidity TextLayer
+  s_humidity_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_humidity_layer, GColorClear);
+  text_layer_set_text_color(s_humidity_layer, GColorWhite);
+  text_layer_set_text_alignment(s_humidity_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_humidity_layer, "Loading");
+  text_layer_set_font(s_humidity_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_humidity_layer));
+  
+  // Create winddirection TextLayer
+  s_winddirection_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_winddirection_layer, GColorClear);
+  text_layer_set_text_color(s_winddirection_layer, GColorWhite);
+  text_layer_set_text_alignment(s_winddirection_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_winddirection_layer, "Loading");
+  text_layer_set_font(s_winddirection_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_winddirection_layer));
+  
+  // Create windspeed TextLayer
+  s_windspeed_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_windspeed_layer, GColorClear);
+  text_layer_set_text_color(s_windspeed_layer, GColorWhite);
+  text_layer_set_text_alignment(s_windspeed_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_windspeed_layer, "Loading");
+  text_layer_set_font(s_windspeed_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_windspeed_layer));
+  
+  // Create dewpoint TextLayer
+  s_dewpoint_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_dewpoint_layer, GColorClear);
+  text_layer_set_text_color(s_dewpoint_layer, GColorWhite);
+  text_layer_set_text_alignment(s_dewpoint_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_dewpoint_layer, "Loading");
+  text_layer_set_font(s_dewpoint_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_dewpoint_layer));
+  
+  // Create soiltemp TextLayer
+  s_soiltemp_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_soiltemp_layer, GColorClear);
+  text_layer_set_text_color(s_soiltemp_layer, GColorWhite);
+  text_layer_set_text_alignment(s_soiltemp_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_soiltemp_layer, "Loading");
+  text_layer_set_font(s_soiltemp_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_soiltemp_layer));
+  
+  // Create soiltemp TextLayer
+  s_soiltemp_layer = text_layer_create(GRect(0,130,144,25));
+  text_layer_set_background_color(s_soiltemp_layer, GColorClear);
+  text_layer_set_text_color(s_soiltemp_layer, GColorWhite);
+  text_layer_set_text_alignment(s_soiltemp_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_soiltemp_layer, "Loading");
+  text_layer_set_font(s_soiltemp_layer, s_weather_font);
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_soiltemp_layer));
   
   // Make sure the time is displayed from the start
   update_time();

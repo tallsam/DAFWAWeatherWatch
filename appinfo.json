@@ -1,7 +1,15 @@
 {
     "appKeys": {
-        "KEY_CONDITIONS": 1,
-        "KEY_TEMPERATURE": 0
+        "KEY_AIRTEMP": 2,
+        "KEY_DEWPOINT": 7,
+        "KEY_FEELSLIKE": 3,
+        "KEY_HUMIDITY": 4,
+        "KEY_RAINFALL9AM": 9,
+        "KEY_SOILTEMP": 8,
+        "KEY_STATIONCODE": 1,
+        "KEY_STATIONNAME": 0,
+        "KEY_WINDDIRECTION": 5,
+        "KEY_WINDSPEED": 6
     },
     "capabilities": [
         "location"
