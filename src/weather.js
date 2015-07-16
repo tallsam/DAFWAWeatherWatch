@@ -12,7 +12,12 @@ var xhrRequest = function(url, type, callback) {
 };
 
 function locationSuccess(pos) {
-  var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + pos.coords.latitude + '&lon=' + pos.coords.longitude;
+  var api_key = 'F609B62D128B08EF40486B3E.apikey';
+  var url = 'https://test-api.agric.wa.gov.au/v1/stations'
+  
+  
+  var url = 'https://test-api.agric.wa.gov.au/v1/stations.json/nearby/' + pos.coords.latitude + '/' + pos.coords.longitude + '/100?api_key==' + api_key;
+
   xhrRequest(url, 'GET', function(responseText) {
     var json = JSON.parse(responseText);
     if (json.cod !== 200) {
@@ -20,14 +25,24 @@ function locationSuccess(pos) {
     }
     else {
       console.log(JSON.stringify(responseText));
-      var temperature = Math.round(json.main.temp - 273.15);
-      console.log('Temperature is '+temperature);
-      var conditions = json.weather[0].main;
-      console.log('Conditions are '+conditions);
+      var airtemp = json.air_temp[0].value;
+      var feelslike = json.feels_like[0].value;
+      var humidity = json.humidity[0].value;
+      var winddirection = json.wind_10min_avg[0].value;
+      var windspeed = json.wind_10min_avg[0].speed_average;
+      var dewpoint = json.dewpoint[0].value;
+      var soiltemp = json.soiltemp[0].soiltemp_degc_ave;
+      var rainfall9am = json.rainfall_from_9am.value;
       
       var dictionary = {
-        'KEY_TEMPERATURE': temperature,
-        'KEY_CONDITIONS': conditions
+        'KEY_AIRTEMP': airtemp,
+        'KEY_FEELSLIKE': feelslike,
+        'KEY_HUMIDITY': humidity,
+        'KEY_WINDDIRECTION': winddirection,
+        'KEY_WINDSPEED': windspeed,
+        'KEY_DEWPOINT': dewpoint,
+        'KEY_SOILTEMP': soiltemp,
+        'KEY_RAINFALL9AM': rainfall9am
       };
       
       Pebble.sendAppMessage(dictionary, function(e) {
