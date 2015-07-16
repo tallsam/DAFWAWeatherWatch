@@ -11,7 +11,6 @@
 #define KEY_SOILTEMP 8
 #define KEY_RAINFALL9AM 9
   
-  
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 
@@ -21,8 +20,6 @@ static BitmapLayer *s_background_layer;
 static GBitmap *s_background_bitmap;
 
 static TextLayer *s_time_layer;
-static TextLayer *s_weather_layer;
-
 static TextLayer *s_stationname_layer;
 static TextLayer *s_stationcode_layer;
 static TextLayer *s_airtemp_layer;
@@ -187,12 +184,22 @@ static void main_window_unload(Window *window) {
   
   // Destroy time TextLayer
   fonts_unload_custom_font(s_time_font);
-  text_layer_destroy(s_time_layer);
-  
-  // Destroy weather Textlayer.
   fonts_unload_custom_font(s_weather_font);
-  text_layer_destroy(s_weather_layer);
+  
+  // Destroy Textlayers.
+  text_layer_destroy(s_time_layer);
+  text_layer_destroy(s_stationname_layer);
+  text_layer_destroy(s_stationcode_layer);
+  text_layer_destroy(s_airtemp_layer);
+  text_layer_destroy(s_feelslike_layer);
+  text_layer_destroy(s_humidity_layer);
+  text_layer_destroy(s_winddirection_layer);
+  text_layer_destroy(s_windspeed_layer);
+  text_layer_destroy(s_dewpoint_layer);
+  text_layer_destroy(s_soiltemp_layer);
+  text_layer_destroy(s_rainfall9am_layer);
 }
+
 
 /**
  * Callback to update the time.
@@ -206,25 +213,64 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
  */
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   // Store incoming information
-  static char temperature_buffer[8];
-  static char conditions_buffer[32];
-  static char weather_layer_buffer[32];
+  static char stationname_buffer[32];
+  static char stationcode_buffer[32];
+  static char airtemp_buffer[32];
+  static char feelslike_buffer[32];
+  static char humidity_buffer[32];
+  static char winddirection_buffer[32];
+  static char windspeed_buffer[32];
+  static char dewpoint_buffer[32];
+  static char soiltemp_buffer[32];
+  static char rainfall9am_buffer[32];
   // Read first item
   Tuple *t = dict_read_first(iterator);
   while (t != NULL) {
     switch(t->key) {
-      case KEY_TEMPERATURE:
-        snprintf(temperature_buffer, sizeof(temperature_buffer), "%dC", (int)t->value->int32);
+      case KEY_STATIONNAME:
+        snprintf(stationname_buffer, sizeof(stationname_buffer), "%dC", (int)t->value->int32);
+        text_layer_set_text(s_stationname_layer, stationname_buffer);
         break;
-      case KEY_CONDITIONS:
-        snprintf(conditions_buffer, sizeof(conditions_buffer), "%s", t->value->cstring);
+      case KEY_STATIONCODE:
+        snprintf(stationcode_buffer, sizeof(stationcode_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_stationcode_layer, stationcode_buffer);
+        break;
+      case KEY_AIRTEMP:
+        snprintf(airtemp_buffer, sizeof(airtemp_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_airtemp_layer, airtemp_buffer);
+        break;
+      case KEY_FEELSLIKE:
+        snprintf(feelslike_buffer, sizeof(feelslike_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_feelslike_layer, feelslike_buffer);
+        break;
+      case KEY_HUMIDITY:
+        snprintf(humidity_buffer, sizeof(humidity_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_humidity_layer, humidity_buffer);
+        break;
+      case KEY_WINDDIRECTION:
+        snprintf(winddirection_buffer, sizeof(winddirection_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_winddirection_layer, winddirection_buffer);
+        break;
+      case KEY_WINDSPEED:
+        snprintf(windspeed_buffer, sizeof(windspeed_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_windspeed_layer, windspeed_buffer);
+        break;
+      case KEY_DEWPOINT:
+        snprintf(dewpoint_buffer, sizeof(dewpoint_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_dewpoint_layer, dewpoint_buffer);
+        break;
+      case KEY_SOILTEMP:
+        snprintf(soiltemp_buffer, sizeof(soiltemp_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_soiltemp_layer, soiltemp_buffer);
+        break;
+      case KEY_RAINFALL9AM:
+        snprintf(rainfall9am_buffer, sizeof(rainfall9am_buffer), "%s", t->value->cstring);
+        text_layer_set_text(s_rainfall9am_layer, rainfall9am_buffer);
         break;
       default:
         APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognised",(int)t->key);
         break;
     }
-    snprintf(weather_layer_buffer, sizeof(weather_layer_buffer), "%s, %s", temperature_buffer, conditions_buffer);
-    text_layer_set_text(s_weather_layer, weather_layer_buffer);
     t = dict_read_next(iterator);
   }
 }
