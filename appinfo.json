@@ -38,17 +38,6 @@
                 "file": "images/background-dafwa.png",
                 "name": "IMAGE_DAFWA_BACKGROUND",
                 "type": "png"
-            },
-            {
-                "compatibility": "2.7",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_48",
-                "type": "font"
-            },
-            {
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_20",
-                "type": "font"
             }
         ]
     },
