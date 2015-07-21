@@ -20,6 +20,16 @@
     "resources": {
         "media": [
             {
+                "file": "images/dafwa_sml.png",
+                "name": "IMAGE_DAFWA_SML",
+                "type": "png"
+            },
+            {
+                "file": "fonts/Lato-Bold.ttf",
+                "name": "FONT_LATO_BOLD_24",
+                "type": "font"
+            },
+            {
                 "file": "images/background-dafwa.png",
                 "name": "IMAGE_DAFWA_BACKGROUND",
                 "type": "png"
@@ -37,10 +47,12 @@
             }
         ]
     },
-    "sdkVersion": "2",
+    "sdkVersion": "3",
     "shortName": "DAFWAWeather",
+    "targetPlatforms": [
+        "basalt"
+    ],
     "uuid": "64f5d2d2-d4a6-4102-b6bb-b289f7b09f35",
-    "versionCode": 1,
     "versionLabel": "1.0",
     "watchapp": {
         "watchface": true
