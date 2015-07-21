@@ -112,9 +112,18 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_stationname_layer, GColorClear);
   text_layer_set_text_color(s_stationname_layer, s_text_color);
   text_layer_set_text_alignment(s_stationname_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_stationname_layer, "");
   text_layer_set_font(s_stationname_layer, s_weather_font);
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_stationname_layer));
+  if(persist_exists(KEY_STATIONNAME)) {
+    char stationname[64];
+    static char stationname_buffer[64];
+    persist_read_string(KEY_STATIONNAME, stationname, sizeof(stationname));
+    snprintf(stationname_buffer, sizeof(stationname_buffer), "%s", stationname);
+    text_layer_set_text(s_stationname_layer, stationname_buffer);  
+  }
+  else {
+    text_layer_set_text(s_stationname_layer, "");
+  }
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_stationname_layer));  
   
   // Configure stationcode TextLayer
   /*
@@ -130,8 +139,17 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_airtemp_layer, GColorClear);
   text_layer_set_text_color(s_airtemp_layer, s_text_color);
   text_layer_set_text_alignment(s_airtemp_layer, GTextAlignmentLeft);
-  text_layer_set_text(s_airtemp_layer, "");
   text_layer_set_font(s_airtemp_layer, s_weather_font);
+  if(persist_exists(KEY_AIRTEMP)) {
+    char airtemp[64];
+    static char airtemp_buffer[64];
+    persist_read_string(KEY_AIRTEMP, airtemp, sizeof(airtemp));
+    snprintf(airtemp_buffer, sizeof(airtemp_buffer), "%s°C", airtemp);
+    text_layer_set_text(s_airtemp_layer, airtemp_buffer);  
+  }
+  else {
+    text_layer_set_text(s_airtemp_layer, "");
+  }
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_airtemp_layer));
   
   // Configure feelslike TextLayer
@@ -158,16 +176,34 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_winddirection_layer, GColorClear);
   text_layer_set_text_color(s_winddirection_layer, s_text_color);
   text_layer_set_text_alignment(s_winddirection_layer, GTextAlignmentLeft);
-  text_layer_set_text(s_winddirection_layer, "");
   text_layer_set_font(s_winddirection_layer, s_weather_font);
+  if(persist_exists(KEY_WINDDIRECTION)) {
+    char winddirection[64];
+    static char winddirection_buffer[64];
+    persist_read_string(KEY_WINDDIRECTION, winddirection, sizeof(winddirection));
+    snprintf(winddirection_buffer, sizeof(winddirection_buffer), "%s", winddirection);
+    text_layer_set_text(s_winddirection_layer, winddirection_buffer);  
+  }
+  else {
+  text_layer_set_text(s_winddirection_layer, "");
+  }
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_winddirection_layer));
   
   // Configure windspeed TextLayer
   text_layer_set_background_color(s_windspeed_layer, GColorClear);
   text_layer_set_text_color(s_windspeed_layer, s_text_color);
   text_layer_set_text_alignment(s_windspeed_layer, GTextAlignmentRight);
-  text_layer_set_text(s_windspeed_layer, "");
   text_layer_set_font(s_windspeed_layer, s_weather_font);
+  if(persist_exists(KEY_WINDSPEED)) {
+    char windspeed[64];
+    static char windspeed_buffer[64];
+    persist_read_string(KEY_WINDSPEED, windspeed, sizeof(windspeed));
+    snprintf(windspeed_buffer, sizeof(windspeed_buffer), "%skm/h", windspeed);
+    text_layer_set_text(s_windspeed_layer, windspeed_buffer);  
+  }
+  else {
+    text_layer_set_text(s_windspeed_layer, "");
+  }
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_windspeed_layer));
   
   // Configure dewpoint TextLayer
@@ -195,8 +231,17 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_rainfall9am_layer, GColorClear);
   text_layer_set_text_color(s_rainfall9am_layer, s_text_color);
   text_layer_set_text_alignment(s_rainfall9am_layer, GTextAlignmentRight);
-  text_layer_set_text(s_rainfall9am_layer, "");
   text_layer_set_font(s_rainfall9am_layer, s_weather_font);
+  if(persist_exists(KEY_RAINFALL9AM)) {
+    char rainfall9am[64];
+    static char rainfall9am_buffer[64];
+    persist_read_string(KEY_RAINFALL9AM, rainfall9am, sizeof(rainfall9am));
+    snprintf(rainfall9am_buffer, sizeof(rainfall9am_buffer), "%smm", rainfall9am);
+    text_layer_set_text(s_rainfall9am_layer, rainfall9am_buffer);  
+  }
+  else {
+    text_layer_set_text(s_rainfall9am_layer, "");
+  }
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_rainfall9am_layer));
   
   // Make sure the time is displayed from the start
@@ -272,6 +317,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       case KEY_STATIONNAME:
         snprintf(stationname_buffer, sizeof(stationname_buffer), "%s", t->value->cstring);
         text_layer_set_text(s_stationname_layer, stationname_buffer);
+        persist_write_string(KEY_STATIONNAME, t->value->cstring);
         break;
       case KEY_STATIONCODE:
         snprintf(stationcode_buffer, sizeof(stationcode_buffer), "%s", t->value->cstring);
@@ -280,6 +326,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       case KEY_AIRTEMP:
         snprintf(airtemp_buffer, sizeof(airtemp_buffer), "%s°C", t->value->cstring);
         text_layer_set_text(s_airtemp_layer, airtemp_buffer);
+        persist_write_string(KEY_AIRTEMP, t->value->cstring);
         break;
       case KEY_FEELSLIKE:
         snprintf(feelslike_buffer, sizeof(feelslike_buffer), "Feels like: %s°C", t->value->cstring);
@@ -292,10 +339,12 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       case KEY_WINDDIRECTION:
         snprintf(winddirection_buffer, sizeof(winddirection_buffer), "%s", t->value->cstring);
         text_layer_set_text(s_winddirection_layer, winddirection_buffer);
+        persist_write_string(KEY_WINDDIRECTION, t->value->cstring);
         break;
       case KEY_WINDSPEED:
         snprintf(windspeed_buffer, sizeof(windspeed_buffer), "%skm/h", t->value->cstring);
         text_layer_set_text(s_windspeed_layer, windspeed_buffer);
+        persist_write_string(KEY_WINDSPEED, t->value->cstring);
         break;
       case KEY_DEWPOINT:
         snprintf(dewpoint_buffer, sizeof(dewpoint_buffer), "Dewpoint: %s°C", t->value->cstring);
@@ -308,6 +357,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       case KEY_RAINFALL9AM:
         snprintf(rainfall9am_buffer, sizeof(rainfall9am_buffer), "%smm", t->value->cstring);
         text_layer_set_text(s_rainfall9am_layer, rainfall9am_buffer);
+        persist_write_string(KEY_RAINFALL9AM, t->value->cstring);
         break;
       default:
         APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognised",(int)t->key);
