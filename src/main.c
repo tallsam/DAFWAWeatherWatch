@@ -70,20 +70,20 @@ static void main_window_load(Window *window) {
   //layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));
 
   // Fonts
-  s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LATO_BOLD_24));
-  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LATO_BOLD_24));
+  s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LATO_BOLD_20));
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LATO_BOLD_20));
 
   // Font Color
   s_text_color = GColorWhite;
     
   //Position layers. Screeen is 144 x 168, (TopLeftX, TopLeftY, Width, Height).
   s_logo_bitmap_layer    = bitmap_layer_create(GRect(0, 0, 80, 80));
-  s_time_layer           = text_layer_create(GRect(80,5,60,50));
+  s_time_layer           = text_layer_create(GRect(75,5,69,50));
   s_stationname_layer    = text_layer_create(GRect(5,80,138,20));
   s_airtemp_layer        = text_layer_create(GRect(5,110,70,20));
   s_rainfall9am_layer    = text_layer_create(GRect(90,110,54,20));
-  s_winddirection_layer  = text_layer_create(GRect(5,140,138,20));
-  s_windspeed_layer      = text_layer_create(GRect(90,140,50,20));
+  s_winddirection_layer  = text_layer_create(GRect(5,140,67,20));
+  s_windspeed_layer      = text_layer_create(GRect(68,140,71,20));
   
   //s_dewpoint_layer       = text_layer_create(GRect(0,120,144,20));  
   //s_feelslike_layer      = text_layer_create(GRect(0,100,144,25));
@@ -103,7 +103,7 @@ static void main_window_load(Window *window) {
   // Configure time TextLayer
   text_layer_set_background_color(s_time_layer, GColorClear);
   text_layer_set_text_color(s_time_layer, s_text_color);
-  text_layer_set_text(s_time_layer, "00:00");
+  text_layer_set_text(s_time_layer, "");
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
@@ -112,7 +112,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_stationname_layer, GColorClear);
   text_layer_set_text_color(s_stationname_layer, s_text_color);
   text_layer_set_text_alignment(s_stationname_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_stationname_layer, "?");
+  text_layer_set_text(s_stationname_layer, "");
   text_layer_set_font(s_stationname_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_stationname_layer));
   
@@ -121,7 +121,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_stationcode_layer, GColorClear);
   text_layer_set_text_color(s_stationcode_layer, s_text_color);
   text_layer_set_text_alignment(s_stationcode_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_stationcode_layer, "?");
+  text_layer_set_text(s_stationcode_layer, "");
   text_layer_set_font(s_stationcode_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_stationcode_layer));
   */
@@ -129,8 +129,8 @@ static void main_window_load(Window *window) {
   // Configure airtemp TextLayer
   text_layer_set_background_color(s_airtemp_layer, GColorClear);
   text_layer_set_text_color(s_airtemp_layer, s_text_color);
-  text_layer_set_text_alignment(s_airtemp_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_airtemp_layer, "?");
+  text_layer_set_text_alignment(s_airtemp_layer, GTextAlignmentLeft);
+  text_layer_set_text(s_airtemp_layer, "");
   text_layer_set_font(s_airtemp_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_airtemp_layer));
   
@@ -139,7 +139,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_feelslike_layer, GColorClear);
   text_layer_set_text_color(s_feelslike_layer, s_text_color);
   text_layer_set_text_alignment(s_feelslike_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_feelslike_layer, "?");
+  text_layer_set_text(s_feelslike_layer, "");
   text_layer_set_font(s_feelslike_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_feelslike_layer));
   */
@@ -149,7 +149,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_humidity_layer, GColorClear);
   text_layer_set_text_color(s_humidity_layer, s_text_color);
   text_layer_set_text_alignment(s_humidity_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_humidity_layer, "?");
+  text_layer_set_text(s_humidity_layer, "");
   text_layer_set_font(s_humidity_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_humidity_layer));
   */
@@ -158,15 +158,15 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_winddirection_layer, GColorClear);
   text_layer_set_text_color(s_winddirection_layer, s_text_color);
   text_layer_set_text_alignment(s_winddirection_layer, GTextAlignmentLeft);
-  text_layer_set_text(s_winddirection_layer, "?");
+  text_layer_set_text(s_winddirection_layer, "");
   text_layer_set_font(s_winddirection_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_winddirection_layer));
   
   // Configure windspeed TextLayer
   text_layer_set_background_color(s_windspeed_layer, GColorClear);
   text_layer_set_text_color(s_windspeed_layer, s_text_color);
-  text_layer_set_text_alignment(s_windspeed_layer, GTextAlignmentLeft);
-  text_layer_set_text(s_windspeed_layer, "?");
+  text_layer_set_text_alignment(s_windspeed_layer, GTextAlignmentRight);
+  text_layer_set_text(s_windspeed_layer, "");
   text_layer_set_font(s_windspeed_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_windspeed_layer));
   
@@ -175,7 +175,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_dewpoint_layer, GColorClear);
   text_layer_set_text_color(s_dewpoint_layer, s_text_color);
   text_layer_set_text_alignment(s_dewpoint_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_dewpoint_layer, "?");
+  text_layer_set_text(s_dewpoint_layer, "");
   text_layer_set_font(s_dewpoint_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_dewpoint_layer));
   */
@@ -186,7 +186,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_soiltemp_layer, GColorClear);
   text_layer_set_text_color(s_soiltemp_layer, s_text_color);
   text_layer_set_text_alignment(s_soiltemp_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_soiltemp_layer, "?");
+  text_layer_set_text(s_soiltemp_layer, "");
   text_layer_set_font(s_soiltemp_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_soiltemp_layer));
   */
@@ -195,7 +195,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_rainfall9am_layer, GColorClear);
   text_layer_set_text_color(s_rainfall9am_layer, s_text_color);
   text_layer_set_text_alignment(s_rainfall9am_layer, GTextAlignmentRight);
-  text_layer_set_text(s_rainfall9am_layer, "?");
+  text_layer_set_text(s_rainfall9am_layer, "");
   text_layer_set_font(s_rainfall9am_layer, s_weather_font);
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_rainfall9am_layer));
   

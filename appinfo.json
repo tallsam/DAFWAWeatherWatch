@@ -26,6 +26,11 @@
             },
             {
                 "file": "fonts/Lato-Bold.ttf",
+                "name": "FONT_LATO_BOLD_20",
+                "type": "font"
+            },
+            {
+                "file": "fonts/Lato-Bold.ttf",
                 "name": "FONT_LATO_BOLD_24",
                 "type": "font"
             },
