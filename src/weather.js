@@ -18,7 +18,7 @@ function locationSuccess(pos) {
   var nearbyUrl = 'https://test-api.agric.wa.gov.au/v1/stations.json/nearby/' + pos.coords.latitude + '/' + pos.coords.longitude + '/100?api_key=' + api_key;
   xhrRequest(nearbyUrl, 'GET', function(responseText) {
     var json = JSON.parse(responseText);
-    var r = json.results[0][0];
+    var r = json.result[0];
     var stationName = r.station_name;
     var stationCode = r.station_code;
     console.log(stationName + ' ' + stationCode);
@@ -27,6 +27,7 @@ function locationSuccess(pos) {
     var weatherUrl = 'https://test-api.agric.wa.gov.au/v1/stations.json/'+ stationCode +'/latest?api_key=' + api_key;
     xhrRequest(weatherUrl, 'GET', function(responseText) {
       var json = JSON.parse(responseText);
+      json = json.result[0];
       console.log(JSON.stringify(responseText));
       var stationCode = json.station[0].station_code;
       var stationName = json.station[0].station_name;
